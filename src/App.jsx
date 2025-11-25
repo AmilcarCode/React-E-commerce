@@ -14,8 +14,13 @@ import Admin from './pages/Admin';
 import NotFound from './pages/NotFound';
 
 const App = () => {
+
+  const basename = import.meta.env.MODE === "production"
+    ? "/React-E-commerce"
+    : "/";
+
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <ThemeProvider>
         <AuthProvider>
           <ProductSourceProvider>
@@ -25,7 +30,6 @@ const App = () => {
                 <Route path="/products/:id" element={<ProductDetail />} />
                 <Route path="/login" element={<Login />} />
                 
-                {/* Rutas protegidas - requieren autenticación */}
                 <Route 
                   path="/cart" 
                   element={
@@ -43,7 +47,6 @@ const App = () => {
                   } 
                 />
                 
-                {/* Ruta de administración - solo para admin */}
                 <Route 
                   path="/admin" 
                   element={
