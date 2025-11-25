@@ -1,195 +1,164 @@
-# LibreMercado - E-commerce React
+# LibreMercado 🛍️
 
-Un proyecto de e-commerce desarrollado con React y JavaScript como parte de un curso de React. Esta aplicación implementa las funcionalidades básicas de una tienda online moderna con carrito de compras, autenticación y gestión de productos.
+E-commerce moderno desarrollado con React y JavaScript.
 
 ## 🚀 Características
 
-- **Catálogo de productos** con búsqueda y filtrado por categorías
+- **Catálogo de productos** con búsqueda y filtros por categoría
 - **Carrito de compras** con persistencia en localStorage
-- **Autenticación de usuarios** con Context API
-- **Detalles de producto** con imágenes y descripción completa
-- **Proceso de checkout** completo
-- **Diseño responsive** con Tailwind CSS
-- **Componentes reutilizables** con shadcn/ui
-- **Navegación con React Router**
-- **Gestión de estado** con Context API y Zustand
+- **Autenticación de usuarios** con rutas protegidas
+- **Panel de administración** con CRUD completo de productos
+- **Paginación inteligente** con control de items por página
+- **Búsqueda en tiempo real** por nombre y categoría
+- **Diseño responsive** optimizado para todos los dispositivos
+- **Integración con MockAPI** para gestión de datos
 
-## 🛠️ Tecnologías Utilizadas
+## 🛠️ Tecnologías
 
-- **React 19** - Biblioteca principal de JavaScript
-- **React Router DOM** - Navegación entre páginas
-- **Tailwind CSS** - Framework de CSS para estilos
-- **shadcn/ui** - Componentes de UI pre-construidos
-- **Radix UI** - Componentes primitivos accesibles
-- **Lucide React** - Iconos
-- **Framer Motion** - Animaciones
-- **Vite** - Herramienta de build y desarrollo
-- **Zustand** - Gestión de estado adicional
+- **React 19** - Biblioteca de JavaScript
+- **React Router DOM** - Navegación SPA
+- **Tailwind CSS** - Framework de estilos
+- **shadcn/ui** - Componentes de UI
+- **Vite** - Build tool y dev server
+- **MockAPI** - Backend simulado
 
 ## 📁 Estructura del Proyecto
 
 ```
 src/
 ├── components/
-│   ├── Layout/
-│   │   ├── Footer.jsx          # Pie de página
-│   │   ├── Layout.jsx          # Layout principal
-│   │   ├── Navbar.jsx          # Barra de navegación
-│   │   └── Sidebar.jsx         # Barra lateral
-│   └── Product/
-│       ├── ProductCard.jsx     # Tarjeta de producto
-│       └── ProductList.jsx     # Lista de productos
+│   ├── Layout/           # Componentes de layout (Navbar, Footer, Sidebar)
+│   ├── Product/          # Componentes de productos (Card, List)
+│   ├── ui/               # Componentes UI reutilizables
+│   ├── Pagination.jsx    # Sistema de paginación
+│   └── ProtectedRoute.jsx # HOC para rutas protegidas
 ├── context/
-│   ├── AuthContext.jsx         # Contexto de autenticación
-│   └── CartContext.jsx         # Contexto del carrito
+│   ├── AuthContext.jsx   # Gestión de autenticación
+│   ├── CartContext.jsx   # Gestión del carrito
+│   ├── ProductSourceContext.jsx
+│   └── ThemeContext.jsx  # Tema claro/oscuro
 ├── hooks/
-│   └── useApi.js              # Hook personalizado para API
+│   └── useApi.js         # Custom hook para API
 ├── pages/
-│   ├── Cart.jsx               # Página del carrito
-│   ├── Checkout.jsx           # Página de checkout
-│   ├── Home.jsx               # Página principal
-│   ├── Login.jsx              # Página de login
-│   ├── NotFound.jsx           # Página 404
-│   └── ProductDetail.jsx      # Detalle del producto
+│   ├── Home.jsx          # Página principal
+│   ├── ProductDetail.jsx # Detalle de producto
+│   ├── Cart.jsx          # Carrito de compras
+│   ├── Checkout.jsx      # Proceso de pago
+│   ├── Admin.jsx         # Panel administrativo
+│   ├── Login.jsx         # Autenticación
+│   └── NotFound.jsx      # Página 404
+├── services/
+│   └── api.js            # Servicios de API
 ├── utils/
-│   ├── constants.js           # Constantes de la aplicación
-│   ├── helpers.js             # Funciones auxiliares
-│   └── mockdata.js            # Datos de prueba
-├── App.jsx                    # Componente principal
-├── main.jsx                   # Punto de entrada
-└── index.css                  # Estilos globales
+│   ├── constants.js      # Constantes globales
+│   ├── helpers.js        # Funciones auxiliares
+│   └── mockdata.js       # Datos de prueba
+├── App.jsx               # Componente raíz
+├── main.jsx              # Punto de entrada
+└── index.css             # Estilos globales
 ```
 
-## 🚀 Instalación y Configuración
+## 📦 Instalación
 
-### Prerrequisitos
+```bash
+# Clonar el repositorio
+git clone git@github.com:AmilcarCode/React-E-commerce.git
+cd libremercado-test
 
-- Node.js (versión 16 o superior)
-- npm o pnpm
+# Instalar dependencias
+pnpm install
 
-### Pasos de instalación
+# Configurar variables de entorno
+# Crear archivo .env en la raíz:
+VITE_MOCKAPI_URL=https://[tu-id].mockapi.io/api/v1/products
 
-1. **Clonar el repositorio**
-   ```bash
-   git clone [url-del-repositorio]
-   cd mi-app
-   ```
+# Ejecutar en modo desarrollo
+pnpm dev
 
-2. **Instalar dependencias**
-   ```bash
-   pnpm install
-   # o
-   npm install
-   ```
+# Construir para producción
+pnpm build
+```
 
-3. **Ejecutar en modo desarrollo**
-   ```bash
-   pnpm dev
-   # o
-   npm run dev
-   ```
 
-4. **Abrir en el navegador**
-   ```
-   http://localhost:5173
-   ```
+## 📝 Scripts Disponibles
 
-## 📋 Scripts Disponibles
-
-- `pnpm dev` - Inicia el servidor de desarrollo
-- `pnpm build` - Construye la aplicación para producción
-- `pnpm preview` - Previsualiza la build de producción
-- `pnpm lint` - Ejecuta el linter para revisar el código
+```bash
+pnpm dev        # Inicia el servidor de desarrollo
+pnpm build      # Construye la aplicación para producción
+pnpm preview    # Previsualiza la build de producción
+pnpm lint       # Ejecuta el linter
+```
 
 ## 🎯 Funcionalidades Principales
 
-### 🏠 Página Principal
-- Visualización de todos los productos
-- Búsqueda por nombre o categoría
-- Filtrado por categorías
-- Navegación intuitiva
+### Gestión de Productos
+- Visualización en grid responsive
+- Búsqueda y filtrado avanzado
+- Paginación con control de items
+- Vista detallada de cada producto
 
-### 🛒 Carrito de Compras
+### Carrito de Compras
 - Agregar/remover productos
 - Actualizar cantidades
 - Cálculo automático de totales
-- Persistencia en localStorage
-- Descuento del 10% aplicado automáticamente
+- Persistencia con localStorage
 
-### 🔐 Autenticación
-- Sistema de login básico
-- Gestión de estado de usuario
-- Protección de rutas (si aplica)
+### Panel de Administración
+- Crear nuevos productos
+- Editar productos existentes
+- Eliminar con confirmación
+- Validación de formularios
 
-### 📱 Diseño Responsive
-- Adaptable a dispositivos móviles
-- Interfaz moderna y limpia
-- Componentes accesibles
+### Sistema de Autenticación
+- Login con Context API
+- Rutas protegidas
+- Persistencia de sesión
+- Redirección automática
 
-## 🎨 Componentes Principales
+## 🌐 Configuración de MockAPI
 
-### Layout Components
-- **Navbar**: Navegación principal con búsqueda y carrito
-- **Sidebar**: Navegación lateral con categorías
-- **Footer**: Información de la tienda
-- **Layout**: Wrapper principal de la aplicación
+1. Crear cuenta en [MockAPI.io](https://mockapi.io/)
+2. Crear un proyecto y endpoint `products`
+3. Configurar el schema:
 
-### Product Components
-- **ProductCard**: Tarjeta individual de producto
-- **ProductList**: Grid de productos con loading states
+```json
+{
+  "title": "string",
+  "price": "number",
+  "description": "string",
+  "category": "string",
+  "image": "string",
+  "rating": {
+    "rate": "number",
+    "count": "number"
+  }
+}
+```
 
-### Context Providers
-- **AuthContext**: Manejo de autenticación
-- **CartContext**: Gestión completa del carrito
+## 🚀 Despliegue
 
-## 🔧 Configuración Adicional
+### Vercel
+```bash
+npm i -g vercel
+vercel
+```
 
-### Tailwind CSS
-El proyecto utiliza Tailwind CSS con configuración personalizada para:
-- Colores del tema
-- Tipografía
-- Espaciado
-- Componentes personalizados
+### Netlify
+```bash
+npm i -g netlify-cli
+netlify deploy --prod
+```
 
-### shadcn/ui
-Componentes pre-construidos incluidos:
-- Botones y formularios
-- Diálogos y modales
-- Navegación y menús
-- Cards y layouts
+## 📱 Responsive Design
 
-## 📚 Conceptos de React Aplicados
-
-Este proyecto demuestra el uso de:
-- **Componentes funcionales** con hooks
-- **useState y useEffect** para gestión de estado
-- **useContext** para estado global
-- **Custom hooks** para lógica reutilizable
-- **React Router** para navegación SPA
-- **Conditional rendering** y listas
-- **Event handling** y formularios
-- **Props y prop drilling** vs Context API
-
-## 🚀 Próximas Mejoras
-
-- [ ] Integración con API real
-- [ ] Autenticación con JWT
-- [ ] Pasarela de pagos
-- [ ] Gestión de inventario
-- [ ] Wishlist de productos
-- [ ] Reseñas y calificaciones
-- [ ] Panel de administración
+- ✅ Desktop (1920x1080+)
+- ✅ Laptop (1366x768)
+- ✅ Tablet (768x1024)
+- ✅ Mobile (375x667+)
 
 
 ## 📄 Licencia
 
-Este proyecto es parte de un curso educativo de React y está disponible para fines de aprendizaje.
-
-## 👨‍💻 Autor
-
-Desarrollado como parte del curso de React con JavaScript.
+Proyecto educativo para aprendizaje de React.
 
 ---
-
-**¡Gracias por revisar este proyecto de e-commerce con React!** 🛍️
-

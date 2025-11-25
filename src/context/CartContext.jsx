@@ -27,11 +27,12 @@ export const CartProvider = ({ children }) => {
     }
   }, [cart, loading]);
 
-  const addToCart = (product) => {
+  const addToCart = (product, discountInfo) => {
     setCart(prevCart => {
       const existingItem = prevCart.find(item => item.id === product.id);
       
       if (existingItem) {
+        // Si ya existe, solo incrementar cantidad (mantener el descuento original)
         return prevCart.map(item =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
@@ -39,7 +40,13 @@ export const CartProvider = ({ children }) => {
         );
       }
       
-      return [...prevCart, { ...product, quantity: 1 }];
+      // Nuevo producto: guardar con el descuento actual
+      return [...prevCart, { 
+        ...product, 
+        quantity: 1,
+        cartDiscount: discountInfo.discountPercentage, // Guardar el descuento aplicado
+        cartFinalPrice: discountInfo.finalPrice // Guardar el precio final
+      }];
     });
   };
 
@@ -68,7 +75,8 @@ export const CartProvider = ({ children }) => {
 
   const getCartTotal = () => {
     return cart.reduce((total, item) => {
-      const finalPrice = item.price * 0.9; // 10% descuento
+      // Usar el precio guardado en el carrito
+      const finalPrice = item.cartFinalPrice || item.price;
       return total + (finalPrice * item.quantity);
     }, 0);
   };

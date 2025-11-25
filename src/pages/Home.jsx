@@ -3,10 +3,12 @@ import { useSearchParams } from 'react-router-dom';
 import Layout from '../components/Layout/Layout';
 import ProductList from '../components/Product/ProductList';
 import { useProducts } from '../hooks/useApi';
+import { useProductSource } from '../context/ProductSourceContext';
 
 const Home = () => {
   const [searchParams] = useSearchParams();
-  const { data: products, loading, error } = useProducts();
+  const { productSource } = useProductSource();
+  const { data: products, loading, error } = useProducts(productSource);
   
   const searchQuery = searchParams.get('q');
   const categoryFilter = searchParams.get('category');
@@ -32,6 +34,7 @@ const Home = () => {
       );
     }
     
+    // Don't randomize here - let ProductList handle sorting
     return filtered;
   }, [products, searchQuery, categoryFilter]);
 

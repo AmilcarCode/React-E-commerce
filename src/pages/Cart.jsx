@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout/Layout';
 import { useCart } from '../context/CartContext';
-import { calculateDiscount, formatPrice } from '../utils/helpers';
+import { formatPrice } from '../utils/helpers';
 
 const Cart = () => {
   const { 
@@ -48,7 +48,9 @@ const Cart = () => {
 
         <div className="cart-items-container">
           {cart.map((item) => {
-            const { finalPrice } = calculateDiscount(item.price);
+            // Usar el descuento guardado en el carrito
+            const discountPercentage = item.cartDiscount || 0;
+            const finalPrice = item.cartFinalPrice || item.price;
             
             return (
               <div key={item.id} className="cart-item">
@@ -65,6 +67,16 @@ const Cart = () => {
                   <p className="cart-item-category">
                     {item.category}
                   </p>
+                  {discountPercentage > 0 && (
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-sm text-gray-500 line-through">
+                        {formatPrice(item.price)}
+                      </span>
+                      <span className="text-xs bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 px-2 py-0.5 rounded">
+                        {discountPercentage}% OFF
+                      </span>
+                    </div>
+                  )}
                   <p className="cart-item-price">
                     {formatPrice(finalPrice)}
                   </p>

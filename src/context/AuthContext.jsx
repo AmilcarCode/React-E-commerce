@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { TEST_USER } from '../utils/constants';
+import { USERS } from '../utils/constants';
 import { getAuthFromStorage, saveAuthToStorage } from '../utils/helpers';
 
 const AuthContext = createContext();
@@ -14,38 +14,54 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [isAuth, setIsAuth] = useState(false);
-  const [userName, setUserName] = useState('');
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const { isAuth: storedAuth, userName: storedUserName } = getAuthFromStorage();
+    const { isAuth: storedAuth, user: storedUser } = getAuthFromStorage();
     setIsAuth(storedAuth);
-    setUserName(storedUserName);
+    setUser(storedUser);
     setLoading(false);
   }, []);
 
-  const login = (email, password) => {
-    if (email === TEST_USER.email && password === TEST_USER.password) {
+  const login = (username, password) => {
+    const foundUser = USERS.find(
+      u => u.username === username && u.password === password
+    );
+    
+    if (foundUser) {
+      const userInfo = {
+        id: foundUser.id,
+        username: foundUser.username,
+        name: foundUser.name,
+        role: foundUser.role
+      };
       setIsAuth(true);
-      setUserName(TEST_USER.name);
-      saveAuthToStorage(true, TEST_USER.name);
-      return { success: true };
+      setUser(userInfo);
+      saveAuthToStorage(true, userInfo);
+      return { success: true, user: userInfo };
     }
     return { success: false, error: 'Credenciales incorrectas' };
   };
 
   const logout = () => {
     setIsAuth(false);
-    setUserName('');
-    saveAuthToStorage(false, '');
+    setUser(null);
+    saveAuthToStorage(false, null);
+  };
+
+  const isAdmin = () => {
+    return user?.role === 'admin';
   };
 
   const value = {
     isAuth,
-    userName,
+    user,
+    userName: user?.name || '',
     loading,
     login,
-    logout
+    logout,
+    isAdmin
   };
 
   return (

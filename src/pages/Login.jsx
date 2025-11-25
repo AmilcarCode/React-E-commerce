@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Navigate, useNavigate, useLocation } from 'react-router-dom';
 import Layout from '../components/Layout/Layout';
 import { useAuth } from '../context/AuthContext';
+import { USERS } from '../utils/constants';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -25,7 +26,7 @@ const Login = () => {
     setLoading(true);
     setError('');
 
-    const result = login(email, password);
+    const result = login(username, password);
     
     if (result.success) {
       navigate(from, { replace: true });
@@ -36,9 +37,9 @@ const Login = () => {
     setLoading(false);
   };
 
-  const fillTestCredentials = () => {
-    setEmail('test@libremercado.com');
-    setPassword('123456');
+  const fillCredentials = (user) => {
+    setUsername(user.username);
+    setPassword(user.password);
   };
 
   return (
@@ -57,18 +58,18 @@ const Login = () => {
           <form className="login-form" onSubmit={handleSubmit}>
             <div className="login-form-fields">
               <div>
-                <label htmlFor="email" className="sr-only">
-                  Email
+                <label htmlFor="username" className="sr-only">
+                  Usuario
                 </label>
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
+                  id="username"
+                  name="username"
+                  type="text"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="login-form-field-top"
-                  placeholder="Email"
+                  placeholder="Usuario"
                 />
               </div>
               <div>
@@ -104,20 +105,44 @@ const Login = () => {
               </button>
             </div>
 
-            <div className="text-center">
-              <button
-                type="button"
-                onClick={fillTestCredentials}
-                className="login-test-credentials-btn"
-              >
-                Usar credenciales de prueba
-              </button>
-            </div>
-
             <div className="login-test-credentials-info">
-              <p className="login-test-credentials-title">Credenciales de prueba:</p>
-              <p>Email: test@libremercado.com</p>
-              <p>Contraseña: 123456</p>
+              <p className="login-test-credentials-title font-bold text-lg mb-3">Credenciales de acceso:</p>
+              
+              <div className="space-y-4">
+                {USERS.map((user) => (
+                  <div key={user.id} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <p className="font-semibold text-gray-900">{user.name}</p>
+                        <p className="text-sm text-gray-600">
+                          {user.role === 'admin' ? '👑 Administrador' : '👤 Usuario común'}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => fillCredentials(user)}
+                        className="text-xs bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition-colors"
+                      >
+                        Usar
+                      </button>
+                    </div>
+                    <div className="text-sm space-y-1">
+                      <p><span className="font-medium">Usuario:</span> {user.username}</p>
+                      <p><span className="font-medium">Contraseña:</span> {user.password}</p>
+                    </div>
+                    {user.role === 'admin' && (
+                      <p className="text-xs text-blue-600 mt-2">
+                        ✓ Puede acceder al panel de administración y cambiar la fuente de productos
+                      </p>
+                    )}
+                    {user.role === 'user' && (
+                      <p className="text-xs text-gray-500 mt-2">
+                        ✓ Puede comprar productos pero no acceder al panel de administración
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </form>
         </div>
